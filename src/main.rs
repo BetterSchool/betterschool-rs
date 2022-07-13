@@ -3,10 +3,11 @@ mod model;
 
 use core::panicking::panic;
 use std::net::SocketAddr;
-use axum::Router;
+use axum::{Extension, Router};
 use axum::routing::get;
 use sea_orm::{Database, DatabaseConnection};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt, EnvFilter};
+use tower::ServiceBuilder;
 
 #[tokio::main]
 async fn main() {
@@ -19,10 +20,16 @@ async fn main() {
         .with(tracing_subscriber::fmt::layer())
         .init();
 
-    let db = Database::connect(std::env::var("DATABASE_URL").unwrap()).await?;
+    let db = Database::connect(std::env::var("DATABASE_URL").expect("Please complete DATABASE_URL key in .env"))
+        .await
+        .expect("Failed to connect to database");
 
     let app = Router::new()
-        .route("/", get(view::main_view::welcome));
+        .route("/", get(view::main_view::welcome))
+        .layer(
+            ServiceBuilder::new()
+                .layer(Extension(db))
+        );
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
     tracing::debug!("Listening on {}", addr);

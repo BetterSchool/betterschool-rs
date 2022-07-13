@@ -159,6 +159,7 @@ dependencies = [
  "dotenv",
  "sea-orm",
  "tokio",
+ "tower",
  "tracing",
  "tracing-subscriber",
 ]

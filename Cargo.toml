@@ -12,3 +12,4 @@ tracing = "0.1.35"
 tracing-subscriber = { version = "0.3.14", features = ["env-filter"] }
 dotenv = "0.15.0"
 sea-orm = { version = "0.9.0", features=["sqlx-sqlite", "runtime-tokio", "mock", "macros"] }
+tower = "0.4.13"
