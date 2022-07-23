@@ -1,11 +1,14 @@
-use sea_orm::entity::prelude::*;
-
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel)]
-#[sea_orm(table_name = "user")]
+#[derive(Queryable)]
 pub struct User {
-    #[sea_orm(primary_key)]
     pub user_id: i32,
-    pub user_name: String,
+    pub username: String,
     pub password: String,
-    pub intro: Option<String>,
+    pub description: String,
+    pub user_type: i8
+}
+
+pub enum UserType {
+    Student,
+    Teacher,
+    Parents
 }
