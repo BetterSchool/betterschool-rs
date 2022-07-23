@@ -1,2 +1,2 @@
 pub mod main_view;
-mod user_view;
+pub mod user_view;
